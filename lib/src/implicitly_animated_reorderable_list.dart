@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:implicitly_animated_reorderable_list/src/custom_sliver_animated_list.dart';
+import 'package:implicitly_animated_reorderable_list_fork/src/custom_sliver_animated_list.dart';
 
 import 'src.dart';
 
@@ -240,9 +239,7 @@ class ImplicitlyAnimatedReorderableListState<E extends Object>
 
   // Whether there is an item in the list that is currently being
   // dragged/reordered.
-  bool _inDrag = false;
-  bool get inDrag => _inDrag;
-  set inDrag(bool data) => _inDrag = data;
+  bool inDrag = false;
   // Whether there is an item in the list that is currently being
   // reordered or moving towards its destination position.
   bool _inReorder = false;
@@ -305,7 +302,7 @@ class ImplicitlyAnimatedReorderableListState<E extends Object>
       _items[key]?.duration = widget.liftDuration;
 
       setState(() {
-        _inDrag = true;
+        inDrag = true;
         _inReorder = true;
       });
 
@@ -521,7 +518,7 @@ class ImplicitlyAnimatedReorderableListState<E extends Object>
 
     _scrollAdjuster?.cancel();
 
-    setState(() => _inDrag = false);
+    setState(() => inDrag = false);
   }
 
   _Item? findDropTargetItem() {
@@ -578,7 +575,7 @@ class ImplicitlyAnimatedReorderableListState<E extends Object>
 
   void _cancelReorder() {
     setState(() {
-      _inDrag = false;
+      inDrag = false;
       _inReorder = false;
       dragItem = null;
       _onDragEnd = null;

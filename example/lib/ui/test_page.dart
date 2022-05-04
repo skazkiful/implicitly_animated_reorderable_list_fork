@@ -3,8 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
-import 'package:implicitly_animated_reorderable_list/transitions.dart';
+import 'package:implicitly_animated_reorderable_list_fork/implicitly_animated_reorderable_list.dart';
+import 'package:implicitly_animated_reorderable_list_fork/transitions.dart';
 
 class TestPage extends StatefulWidget {
   const TestPage();
@@ -28,7 +28,8 @@ class TestPageState extends State<TestPage> {
 
   void crazyListOperationMadness() {
     void assignNewList() {
-      nestedList = List.generate(Random().nextInt(maxLength), (i) => Test(i))..shuffle();
+      nestedList = List.generate(Random().nextInt(maxLength), (i) => Test(i))
+        ..shuffle();
 
       setState(() {});
     }

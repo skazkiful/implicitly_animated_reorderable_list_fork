@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
-import 'package:implicitly_animated_reorderable_list/transitions.dart';
+import 'package:implicitly_animated_reorderable_list_fork/implicitly_animated_reorderable_list.dart';
+import 'package:implicitly_animated_reorderable_list_fork/transitions.dart';
 
 import '../util/util.dart';
 
@@ -39,7 +39,8 @@ class _LanguageSearchPageState extends State<LanguageSearchPage> {
     for (final lang in languages) {
       final englishName = lang.englishName.toLowerCase();
       final nativeName = lang.nativeName.toLowerCase();
-      final startsWith = englishName.startsWith(query) || nativeName.startsWith(query);
+      final startsWith =
+          englishName.startsWith(query) || nativeName.startsWith(query);
 
       if (startsWith) {
         filteredLanguages.add(lang);
@@ -49,7 +50,8 @@ class _LanguageSearchPageState extends State<LanguageSearchPage> {
     for (final lang in languages) {
       final englishName = lang.englishName.toLowerCase();
       final nativeName = lang.nativeName.toLowerCase();
-      final contains = englishName.contains(query) || nativeName.contains(query);
+      final contains =
+          englishName.contains(query) || nativeName.contains(query);
 
       if (contains && !filteredLanguages.contains(lang)) {
         filteredLanguages.add(lang);
@@ -107,8 +109,9 @@ class _LanguageSearchPageState extends State<LanguageSearchPage> {
       appBar: _buildAppBar(padding, theme, textTheme),
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
-        child:
-            filteredLanguages.isNotEmpty ? _buildList() : _buildNoLanguagesPlaceholder(),
+        child: filteredLanguages.isNotEmpty
+            ? _buildList()
+            : _buildNoLanguagesPlaceholder(),
       ),
     );
   }
@@ -135,13 +138,14 @@ class _LanguageSearchPageState extends State<LanguageSearchPage> {
     );
   }
 
-  PreferredSize _buildAppBar(double padding, ThemeData theme, TextTheme textTheme) {
+  PreferredSize _buildAppBar(
+      double padding, ThemeData theme, TextTheme textTheme) {
     return PreferredSize(
       preferredSize: Size.fromHeight(56 + padding),
       child: Box(
         height: 56 + padding,
         width: double.infinity,
-        color: theme.accentColor,
+        color: theme.colorScheme.secondary,
         elevation: 4,
         shadowColor: Colors.black.withOpacity(0.2),
         child: Column(
@@ -164,7 +168,8 @@ class _LanguageSearchPageState extends State<LanguageSearchPage> {
                       ),
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 16),
                         hintText: 'Search for a language',
                         hintStyle: textTheme.bodyText2?.copyWith(
                           color: Colors.grey.shade200,

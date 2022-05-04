@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:implicitly_animated_reorderable_list/src/custom_sliver_animated_list.dart';
+import 'package:implicitly_animated_reorderable_list_fork/src/custom_sliver_animated_list.dart';
 
 import 'src.dart';
 
