@@ -53,10 +53,10 @@ class Handle extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _HandleState createState() => _HandleState();
+  HandleState createState() => HandleState();
 }
 
-class _HandleState extends State<Handle> {
+class HandleState extends State<Handle> {
   ScrollableState? _parent;
   // A custom handler used to cancel the pending onDragStart callbacks.
   Handler? _handler;
@@ -146,7 +146,7 @@ class _HandleState extends State<Handle> {
     // for now.
     return Listener(
       behavior: HitTestBehavior.translucent,
-      onPointerDown: (event) => _onDown(event.localPosition),
+      onPointerDown: (event) => onDown(event.localPosition),
       onPointerMove: (event) => _onUpdate(event.localPosition),
       onPointerUp: (_) => _onUp(),
       onPointerCancel: (_) => _onUp(),
@@ -154,10 +154,17 @@ class _HandleState extends State<Handle> {
     );
   }
 
-  void _onDown(Offset pointer) {
+  void changeOffset(Offset pointer) {
+    _currentOffset = pointer.dx;
+    _onDragUpdated(pointer);
+  }
+
+  void onDown(Offset pointer) {
+    _list!.inDrag = true;
     _pointer = pointer;
     _currentOffset = _offset(_pointer);
     _downOffset = _offset(_pointer);
+    _startOffset = _offset(_pointer);
 
     // Ensure the list is not already in a reordering
     // state when initiating a new reorder operation.

@@ -242,6 +242,7 @@ class ImplicitlyAnimatedReorderableListState<E extends Object>
   // dragged/reordered.
   bool _inDrag = false;
   bool get inDrag => _inDrag;
+  set inDrag(bool data) => _inDrag = data;
   // Whether there is an item in the list that is currently being
   // reordered or moving towards its destination position.
   bool _inReorder = false;
@@ -249,6 +250,7 @@ class ImplicitlyAnimatedReorderableListState<E extends Object>
 
   double _dragStartOffset = 0.0;
   double _dragStartScrollOffset = 0.0;
+  Map<Key?, _Item> get itemBoxes => _itemBoxes;
   Key? get dragKey => dragItem?.key;
   int? get _dragIndex => dragItem?.index;
   double get _dragStart => dragItem!.start + _dragDelta;
@@ -849,12 +851,7 @@ class _Item extends Rect implements Comparable<_Item> {
     this.offset,
     // ignore: avoid_positional_boolean_parameters
     this._isVertical,
-  ) : super.fromLTWH(
-          offset.dx,
-          offset.dy,
-          box.size.width,
-          box.size.height,
-        );
+  ) : super.fromLTWH(offset.dx, offset.dy, box.size.width, box.size.height);
 
   double get start => _isVertical ? top : left;
   double get end => _isVertical ? bottom : right;
