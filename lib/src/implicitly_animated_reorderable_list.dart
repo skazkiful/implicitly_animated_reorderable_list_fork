@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:implicitly_animated_reorderable_list_fork/src/custom_sliver_animated_list.dart';
@@ -239,7 +240,8 @@ class ImplicitlyAnimatedReorderableListState<E extends Object>
 
   // Whether there is an item in the list that is currently being
   // dragged/reordered.
-  bool inDrag = false;
+  bool _inDrag = false;
+  bool get inDrag => _inDrag;
   // Whether there is an item in the list that is currently being
   // reordered or moving towards its destination position.
   bool _inReorder = false;
@@ -247,7 +249,6 @@ class ImplicitlyAnimatedReorderableListState<E extends Object>
 
   double _dragStartOffset = 0.0;
   double _dragStartScrollOffset = 0.0;
-  Map<Key?, _Item> get itemBoxes => _itemBoxes;
   Key? get dragKey => dragItem?.key;
   int? get _dragIndex => dragItem?.index;
   double get _dragStart => dragItem!.start + _dragDelta;
@@ -302,7 +303,7 @@ class ImplicitlyAnimatedReorderableListState<E extends Object>
       _items[key]?.duration = widget.liftDuration;
 
       setState(() {
-        inDrag = true;
+        _inDrag = true;
         _inReorder = true;
       });
 
@@ -518,7 +519,7 @@ class ImplicitlyAnimatedReorderableListState<E extends Object>
 
     _scrollAdjuster?.cancel();
 
-    setState(() => inDrag = false);
+    setState(() => _inDrag = false);
   }
 
   _Item? findDropTargetItem() {
@@ -575,7 +576,7 @@ class ImplicitlyAnimatedReorderableListState<E extends Object>
 
   void _cancelReorder() {
     setState(() {
-      inDrag = false;
+      _inDrag = false;
       _inReorder = false;
       dragItem = null;
       _onDragEnd = null;
@@ -848,7 +849,12 @@ class _Item extends Rect implements Comparable<_Item> {
     this.offset,
     // ignore: avoid_positional_boolean_parameters
     this._isVertical,
-  ) : super.fromLTWH(offset.dx, offset.dy, box.size.width, box.size.height);
+  ) : super.fromLTWH(
+          offset.dx,
+          offset.dy,
+          box.size.width,
+          box.size.height,
+        );
 
   double get start => _isVertical ? top : left;
   double get end => _isVertical ? bottom : right;

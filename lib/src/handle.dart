@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -72,6 +73,7 @@ class HandleState extends State<Handle> {
   double? _startOffset;
   double? _currentOffset;
   double get _delta => (_currentOffset ?? 0) - (_startOffset ?? 0);
+  bool get isInDrag => _inDrag;
 
   // Use flags from the list as this State object is being
   // recreated between dragged and normal state.
@@ -134,10 +136,10 @@ class HandleState extends State<Handle> {
 
     _list = ImplicitlyAnimatedReorderableList.of(context);
     assert(_list != null,
-        'No ancestor ImplicitlyAnimatedReorderableList was found in the hierarchy!');
+    'No ancestor ImplicitlyAnimatedReorderableList was found in the hierarchy!');
     _reorderable = Reorderable.of(context);
     assert(_reorderable != null,
-        'No ancestor Reorderable was found in the hierarchy!');
+    'No ancestor Reorderable was found in the hierarchy!');
     _parent = Scrollable.of(_list!.context);
 
     // Sometimes the cancel callbacks of the GestureDetector
@@ -146,24 +148,17 @@ class HandleState extends State<Handle> {
     return Listener(
       behavior: HitTestBehavior.translucent,
       onPointerDown: (event) => onDown(event.localPosition),
-      onPointerMove: (event) => _onUpdate(event.localPosition),
+      onPointerMove: (event) => onUpdate(event.localPosition),
       onPointerUp: (_) => _onUp(),
       onPointerCancel: (_) => _onUp(),
       child: widget.child,
     );
   }
 
-  void changeOffset(Offset pointer) {
-    _currentOffset = pointer.dx;
-    _onDragUpdated(pointer);
-  }
-
   void onDown(Offset pointer) {
-    _list!.inDrag = true;
     _pointer = pointer;
     _currentOffset = _offset(_pointer);
     _downOffset = _offset(_pointer);
-    _startOffset = _offset(_pointer);
 
     // Ensure the list is not already in a reordering
     // state when initiating a new reorder operation.
@@ -177,13 +172,13 @@ class HandleState extends State<Handle> {
     }
   }
 
-  void _onUpdate(Offset pointer) {
+  void onUpdate(Offset pointer) {
     _pointer = pointer;
     _currentOffset = _offset(_pointer);
 
-    if (_inDrag && _inReorder) {
-      _onDragUpdated(pointer);
-    }
+    // if (_inDrag && _inReorder) {
+    _onDragUpdated(pointer);
+    // }
   }
 
   void _onUp() {
